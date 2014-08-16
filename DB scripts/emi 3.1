@@ -1,0 +1,465 @@
+CREATE DATABASE  IF NOT EXISTS `emi` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `emi`;
+-- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
+--
+-- Host: localhost    Database: emi
+-- ------------------------------------------------------
+-- Server version	5.5.24-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cities_enum`
+--
+
+DROP TABLE IF EXISTS `cities_enum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cities_enum` (
+  `City_ID` int(11) NOT NULL,
+  `City_Name` varchar(45) DEFAULT NULL,
+  `Gov_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`City_ID`),
+  KEY `fk_Cities_Enum_1_idx` (`Gov_ID`),
+  CONSTRAINT `fk_Cities_Enum_1` FOREIGN KEY (`Gov_ID`) REFERENCES `governorates_enum` (`Gov_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cities_enum`
+--
+
+LOCK TABLES `cities_enum` WRITE;
+/*!40000 ALTER TABLE `cities_enum` DISABLE KEYS */;
+INSERT INTO `cities_enum` VALUES (1,'ضصث',1);
+/*!40000 ALTER TABLE `cities_enum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clinics`
+--
+
+DROP TABLE IF EXISTS `clinics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clinics` (
+  `Clinic_ID` int(11) NOT NULL,
+  `Speciality` varchar(45) DEFAULT NULL,
+  `Fees` int(11) DEFAULT NULL,
+  `Working_Hours` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Clinic_ID`),
+  KEY `fk_Clinics_1_idx` (`Clinic_ID`),
+  CONSTRAINT `fk_Clinics_1` FOREIGN KEY (`Clinic_ID`) REFERENCES `facilities` (`Facility_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clinics`
+--
+
+LOCK TABLES `clinics` WRITE;
+/*!40000 ALTER TABLE `clinics` DISABLE KEYS */;
+INSERT INTO `clinics` VALUES (3,'atfal',40,'8:00-12:00');
+/*!40000 ALTER TABLE `clinics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `departments`
+--
+
+DROP TABLE IF EXISTS `departments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `departments` (
+  `Department_ID` int(11) NOT NULL,
+  `Department_name` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Department_ID`,`Department_name`),
+  KEY `fk_Departments_1_idx` (`Department_ID`),
+  CONSTRAINT `fk_Departments_1` FOREIGN KEY (`Department_ID`) REFERENCES `hospitals` (`Hospital_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `departments`
+--
+
+LOCK TABLES `departments` WRITE;
+/*!40000 ALTER TABLE `departments` DISABLE KEYS */;
+INSERT INTO `departments` VALUES (1,'batna'),(1,'oyon'),(1,'sadr');
+/*!40000 ALTER TABLE `departments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `districts_enum`
+--
+
+DROP TABLE IF EXISTS `districts_enum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `districts_enum` (
+  `District_ID` int(11) NOT NULL,
+  `District_Name` varchar(45) DEFAULT NULL,
+  `City_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`District_ID`),
+  KEY `fk_Districts_Enum_1_idx` (`City_ID`),
+  CONSTRAINT `fk_Districts_Enum_1` FOREIGN KEY (`City_ID`) REFERENCES `cities_enum` (`City_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `districts_enum`
+--
+
+LOCK TABLES `districts_enum` WRITE;
+/*!40000 ALTER TABLE `districts_enum` DISABLE KEYS */;
+INSERT INTO `districts_enum` VALUES (1,'ضصث',1);
+/*!40000 ALTER TABLE `districts_enum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `doctors`
+--
+
+DROP TABLE IF EXISTS `doctors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `doctors` (
+  `Doctor_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `FNAME` varchar(45) DEFAULT NULL,
+  `LNAME` varchar(45) DEFAULT NULL,
+  `Sex` varchar(45) DEFAULT NULL,
+  `Speciality` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Doctor_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `doctors`
+--
+
+LOCK TABLES `doctors` WRITE;
+/*!40000 ALTER TABLE `doctors` DISABLE KEYS */;
+INSERT INTO `doctors` VALUES (1,'ahmed','emam','M','oyon'),(2,'sayed','abdalla','M','atfal');
+/*!40000 ALTER TABLE `doctors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `facilities`
+--
+
+DROP TABLE IF EXISTS `facilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `facilities` (
+  `Facility_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(45) DEFAULT NULL,
+  `Website` varchar(45) DEFAULT NULL,
+  `Description` text,
+  `Gov_ID` int(11) DEFAULT NULL,
+  `City_ID` int(11) DEFAULT NULL,
+  `District_ID` int(11) DEFAULT NULL,
+  `Street` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Facility_ID`),
+  KEY `fk_Facilities_1_idx` (`Gov_ID`),
+  KEY `fk_Facilities_2_idx` (`District_ID`),
+  KEY `fk_Facilities_3_idx` (`City_ID`),
+  CONSTRAINT `fk_Facilities_1` FOREIGN KEY (`Gov_ID`) REFERENCES `governorates_enum` (`Gov_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Facilities_2` FOREIGN KEY (`District_ID`) REFERENCES `districts_enum` (`District_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Facilities_3` FOREIGN KEY (`City_ID`) REFERENCES `cities_enum` (`City_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `facilities`
+--
+
+LOCK TABLES `facilities` WRITE;
+/*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
+INSERT INTO `facilities` VALUES (1,'dar elfouad','khadkjajfh@alhlahff',NULL,NULL,NULL,NULL,NULL),(2,'elezaby','aljklad@gmail.com',NULL,NULL,NULL,NULL,NULL),(3,'elnor','hakhklaf@khajklh.com',NULL,NULL,NULL,NULL,NULL),(4,'تنشاسيتشاي',NULL,'شسيشي',1,1,1,'شضصث');
+/*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `governorates_enum`
+--
+
+DROP TABLE IF EXISTS `governorates_enum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `governorates_enum` (
+  `Gov_ID` int(11) NOT NULL,
+  `Gov_Name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Gov_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `governorates_enum`
+--
+
+LOCK TABLES `governorates_enum` WRITE;
+/*!40000 ALTER TABLE `governorates_enum` DISABLE KEYS */;
+INSERT INTO `governorates_enum` VALUES (1,'ضصثض');
+/*!40000 ALTER TABLE `governorates_enum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hospitals`
+--
+
+DROP TABLE IF EXISTS `hospitals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hospitals` (
+  `Hospital_ID` int(11) NOT NULL,
+  `Fees` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Hospital_ID`),
+  KEY `fk_Hospitals_1_idx` (`Hospital_ID`),
+  CONSTRAINT `fk_Hospitals_1` FOREIGN KEY (`Hospital_ID`) REFERENCES `facilities` (`Facility_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hospitals`
+--
+
+LOCK TABLES `hospitals` WRITE;
+/*!40000 ALTER TABLE `hospitals` DISABLE KEYS */;
+INSERT INTO `hospitals` VALUES (1,15);
+/*!40000 ALTER TABLE `hospitals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `medical_labs`
+--
+
+DROP TABLE IF EXISTS `medical_labs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `medical_labs` (
+  `Ml_ID` int(11) NOT NULL,
+  `Type` int(11) DEFAULT NULL,
+  `Fees` int(11) DEFAULT NULL,
+  `Working_Hours` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`Ml_ID`),
+  KEY `fk_Medical_Labs_1_idx` (`Ml_ID`),
+  KEY `fk_Medical_Labs_2_idx` (`Type`),
+  CONSTRAINT `fk_Medical_Labs_1` FOREIGN KEY (`Ml_ID`) REFERENCES `facilities` (`Facility_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Medical_Labs_2` FOREIGN KEY (`Type`) REFERENCES `medical_lap_enum` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `medical_labs`
+--
+
+LOCK TABLES `medical_labs` WRITE;
+/*!40000 ALTER TABLE `medical_labs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `medical_labs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `medical_lap_enum`
+--
+
+DROP TABLE IF EXISTS `medical_lap_enum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `medical_lap_enum` (
+  `ID` int(11) NOT NULL,
+  `ML_Type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `medical_lap_enum`
+--
+
+LOCK TABLES `medical_lap_enum` WRITE;
+/*!40000 ALTER TABLE `medical_lap_enum` DISABLE KEYS */;
+INSERT INTO `medical_lap_enum` VALUES (1,'Radiology'),(2,'Analysis');
+/*!40000 ALTER TABLE `medical_lap_enum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pharmacies`
+--
+
+DROP TABLE IF EXISTS `pharmacies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pharmacies` (
+  `Pharmacy_ID` int(11) NOT NULL,
+  `Working_Hours` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  `Delivery` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`Pharmacy_ID`),
+  KEY `fk_Pharmacies_1_idx` (`Pharmacy_ID`),
+  CONSTRAINT `fk_Pharmacies_1` FOREIGN KEY (`Pharmacy_ID`) REFERENCES `facilities` (`Facility_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pharmacies`
+--
+
+LOCK TABLES `pharmacies` WRITE;
+/*!40000 ALTER TABLE `pharmacies` DISABLE KEYS */;
+INSERT INTO `pharmacies` VALUES (2,'24H','yes');
+/*!40000 ALTER TABLE `pharmacies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_enum`
+--
+
+DROP TABLE IF EXISTS `role_enum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_enum` (
+  `ID` int(11) NOT NULL,
+  `Role_Name` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_enum`
+--
+
+LOCK TABLES `role_enum` WRITE;
+/*!40000 ALTER TABLE `role_enum` DISABLE KEYS */;
+INSERT INTO `role_enum` VALUES (1,'Administrator'),(2,'User');
+/*!40000 ALTER TABLE `role_enum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `telephones`
+--
+
+DROP TABLE IF EXISTS `telephones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `telephones` (
+  `Telephones_ID` int(11) NOT NULL,
+  `Phone` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Telephones_ID`,`Phone`),
+  KEY `fk_Telephones_1_idx` (`Telephones_ID`),
+  CONSTRAINT `fk_Telephones_1` FOREIGN KEY (`Telephones_ID`) REFERENCES `facilities` (`Facility_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `telephones`
+--
+
+LOCK TABLES `telephones` WRITE;
+/*!40000 ALTER TABLE `telephones` DISABLE KEYS */;
+INSERT INTO `telephones` VALUES (1,'01110211410'),(1,'01234567898'),(2,'1319801797');
+/*!40000 ALTER TABLE `telephones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `User_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(45) DEFAULT NULL,
+  `Password` varchar(45) DEFAULT NULL,
+  `Email` varchar(45) DEFAULT NULL,
+  `Role` int(11) DEFAULT NULL,
+  PRIMARY KEY (`User_ID`),
+  KEY `fk_User_1_idx` (`Role`),
+  CONSTRAINT `fk_User_1` FOREIGN KEY (`Role`) REFERENCES `role_enum` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'mostafa','12345','',1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `works_clinics`
+--
+
+DROP TABLE IF EXISTS `works_clinics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `works_clinics` (
+  `D_ID` int(11) NOT NULL,
+  `C_ID` int(11) NOT NULL,
+  PRIMARY KEY (`D_ID`,`C_ID`),
+  KEY `fk_works_clinics_1_idx` (`C_ID`),
+  KEY `fk_works_clinics_2_idx` (`D_ID`),
+  CONSTRAINT `fk_works_clinics_1` FOREIGN KEY (`C_ID`) REFERENCES `clinics` (`Clinic_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_works_clinics_2` FOREIGN KEY (`D_ID`) REFERENCES `doctors` (`Doctor_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `works_clinics`
+--
+
+LOCK TABLES `works_clinics` WRITE;
+/*!40000 ALTER TABLE `works_clinics` DISABLE KEYS */;
+INSERT INTO `works_clinics` VALUES (2,3);
+/*!40000 ALTER TABLE `works_clinics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `works_hospital`
+--
+
+DROP TABLE IF EXISTS `works_hospital`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `works_hospital` (
+  `D_ID` int(11) NOT NULL,
+  `H_ID` int(11) NOT NULL,
+  PRIMARY KEY (`D_ID`,`H_ID`),
+  KEY `fk_works_hospital_1_idx` (`D_ID`),
+  KEY `fk_works_hospital_2_idx` (`H_ID`),
+  CONSTRAINT `fk_works_hospital_1` FOREIGN KEY (`D_ID`) REFERENCES `doctors` (`Doctor_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_works_hospital_2` FOREIGN KEY (`H_ID`) REFERENCES `hospitals` (`Hospital_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `works_hospital`
+--
+
+LOCK TABLES `works_hospital` WRITE;
+/*!40000 ALTER TABLE `works_hospital` DISABLE KEYS */;
+INSERT INTO `works_hospital` VALUES (1,1);
+/*!40000 ALTER TABLE `works_hospital` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2012-12-16 23:07:52
